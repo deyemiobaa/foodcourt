@@ -9,7 +9,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
-module.exports = {
+const config: { [s: string]: import("knex").Knex.Config; } = {
   development: {
     client: 'postgresql',
     connection: {
@@ -33,3 +33,5 @@ module.exports = {
     ...knexSnakeCaseMappers(),
   },
 };
+
+export default config;

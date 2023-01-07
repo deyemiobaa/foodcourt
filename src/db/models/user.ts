@@ -6,7 +6,7 @@ export default class User extends Model {
   name!: string
   email!: string
   password!: string
-  role!: string
+  role?: string
 
   static tableName = 'users';
 

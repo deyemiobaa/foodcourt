@@ -9,10 +9,18 @@ export async function up(knex: Knex): Promise<void> {
     table.string('description', 500);
     table.string('category');
     table.uuid('brand_id')
+      .unsigned()
       .notNullable()
       .references('id')
       .inTable('brands')
       .onDelete('CASCADE');
+    table.uuid('user_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE');
+    
     table.timestamps(true, true);
   });
 }

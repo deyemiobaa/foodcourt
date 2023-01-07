@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { LoginDTO } from './auto.dto';
+import { LoginDTO } from './auth.dto';
 import {
   BadRequestException,
   UnauthorizedException,
@@ -12,7 +12,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(email: string): Promise<any> {
     const user = await this.usersService.findUserByEmail(email);

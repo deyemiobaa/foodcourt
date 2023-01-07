@@ -8,6 +8,18 @@ import { AddonDTO, PatchAddonDTO } from 'src/addons/addon.dto';
 export class BrandsService {
   constructor(private addonsService: AddonsService) { }
 
+  async createAddonForBrand(userId: string, brandId: string, body: AddonDTO) {
+    const brand = await Brand.query().findById(brandId);
+    if (!brand) {
+      throw new NotFoundException()
+    }
+    const addon = await this.addonsService.createAddon(userId, brandId, body);
+    if (!addon) {
+      throw new ForbiddenException()
+    }
+    return `Addon: ${addon.name}, created successfully`;
+  }
+
   async getAddonsForBrand(brandId: string) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
@@ -25,18 +37,6 @@ export class BrandsService {
     const addon = await this.addonsService.getAddon(addonId, brandId);
     if (!addon) {
       throw new NotFoundException()
-    }
-    return addon;
-  }
-
-  async createAddonForBrand(userId: string, brandId: string, body: AddonDTO) { 
-    const brand = await Brand.query().findById(brandId);
-    if (!brand) {
-      throw new NotFoundException()
-    }
-    const addon = await this.addonsService.createAddon(userId, brandId, body);
-    if (!addon) {
-      throw new ForbiddenException()
     }
     return addon;
   }

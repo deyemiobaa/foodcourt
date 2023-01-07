@@ -25,10 +25,10 @@ export class UsersService {
       throw new UnauthorizedException();
     }
 
-    if (!user.brand) {
+    if (!user.brands) {
       throw new NotFoundException();
     }
 
-    return user.brand.id === brandId;
+    return user.brands.some((brand) => brand.id === brandId);
   }
 }

@@ -16,7 +16,7 @@ export default class User extends Model {
 
   static relationMappings = () => ({
     brands: {
-      relation: Model.HasOneRelation,
+      relation: Model.HasManyRelation,
       modelClass: Brand,
       join: {
         from: 'users.id',

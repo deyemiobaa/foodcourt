@@ -18,9 +18,9 @@ import { AuthController } from './auth.controller';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         secret: config.get<string>('jwt.secret'),
-        signOptions: config.get<JwtSignOptions>('jwt.options')
-      })
-    })
+        signOptions: config.get<JwtSignOptions>('jwt.options'),
+      }),
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UsersService],

@@ -9,6 +9,6 @@ export class UsersService {
   }
 
   async findOne(user: LoginDTO) {
-    return User.query().findOne({email: user.email, password: user.password});
+    return User.query().findOne({ email: user.email, password: user.password });
   }
 }

@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDTO } from './auto.dto';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common/exceptions';
+import {
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
-  
+  ) {}
+
   async validateUser(email: string): Promise<any> {
     const user = await this.usersService.findUserByEmail(email);
     if (!user) {
@@ -29,6 +32,6 @@ export class AuthService {
         access_token: this.jwtService.sign(payload),
       };
     }
-    throw new BadRequestException('Invalid email or password.')
+    throw new BadRequestException('Invalid email or password.');
   }
 }

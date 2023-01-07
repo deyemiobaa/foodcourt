@@ -1,6 +1,6 @@
-import { Model } from "objection";
-import Brand from "./brand";
-import User from "./user";
+import { Model } from 'objection';
+import Brand from './brand';
+import User from './user';
 
 export default class Addon extends Model {
   id!: string;
@@ -11,24 +11,24 @@ export default class Addon extends Model {
   brandId!: string;
   userId!: string;
 
-  static tableName = "addons";
+  static tableName = 'addons';
 
   static relationMappings = () => ({
     brand: {
       relation: Model.BelongsToOneRelation,
       modelClass: Brand,
       join: {
-        from: "addons.brand_id",
-        to: "brands.id"
-      }
+        from: 'addons.brand_id',
+        to: 'brands.id',
+      },
     },
     user: {
       relation: Model.BelongsToOneRelation,
       modelClass: User,
       join: {
-        from: "addons.user_id",
-        to: "users.id"
-      }
-    }
+        from: 'addons.user_id',
+        to: 'users.id',
+      },
+    },
   });
 }

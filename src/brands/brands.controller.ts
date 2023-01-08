@@ -70,7 +70,7 @@ export class BrandsController {
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    return this.brandsService.getAddonForBrand(brandId, addonId);
+    return this.brandsService.getAddonForBrand(addonId, id, brandId);
   }
 
   @UseGuards(JwtAuthGuard)

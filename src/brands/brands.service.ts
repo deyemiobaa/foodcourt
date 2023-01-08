@@ -33,12 +33,12 @@ export class BrandsService {
     return addons;
   }
 
-  async getAddonForBrand(brandId: string, addonId: string) {
+  async getAddonForBrand(addonId: string, userId: string, brandId: string) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
       throw new NotFoundException();
     }
-    const addon = await this.addonsService.getAddon(addonId, brandId);
+    const addon = await this.addonsService.getAddon(addonId, userId, brandId);
     if (!addon) {
       throw new NotFoundException();
     }

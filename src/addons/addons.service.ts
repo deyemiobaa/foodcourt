@@ -21,8 +21,8 @@ export class AddonsService {
     return addons
   }
 
-  async getAddon(id: string, brandId: string) {
-    return Addon.query().findOne({ id, brandId });
+  async getAddon(id: string, userId: string, brandId: string) {
+    return Addon.query().findOne({ id, userId, brandId });
   }
 
   async updateAddon(id: string, brandId: string, body: Partial<PatchAddonDTO>) {

@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { LoginDTO } from 'src/auth/auth.dto';
 import User from 'src/db/models/user';
 
@@ -13,9 +17,7 @@ export class UsersService {
   }
 
   async checkUserAndBrand(id: string, brandId: string): Promise<boolean> {
-    const user = await User.query()
-      .findById(id)
-      .withGraphFetched('brands');
+    const user = await User.query().findById(id).withGraphFetched('brands');
 
     if (!user) {
       throw new NotFoundException();

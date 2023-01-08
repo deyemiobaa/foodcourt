@@ -5,16 +5,11 @@ import { AddonDTO, PatchAddonDTO } from './addon.dto';
 @Injectable()
 export class AddonsService {
   async createAddon(userId: string, brandId: string, body: AddonDTO) {
-    return Addon.query().insert(
-      {
-        name: body.name,
-        description: body.description,
-        price: body.price,
-        category: body.category,
-        brandId: brandId,
-        userId: userId,
-      }
-    )
+    return Addon.query().insert({
+      ...body,
+      brandId: brandId,
+      userId: userId,
+    });
   }
 
   async getAddons(brandId: string) {
@@ -25,8 +20,10 @@ export class AddonsService {
     return Addon.query().findOne({ id, brandId });
   }
 
-  async updateAddon(id: string, brandId: string, body: PatchAddonDTO) {
-    return Addon.query().patch({ ...body }).findOne({ id, brandId })
+  async updateAddon(id: string, brandId: string, body: Partial<PatchAddonDTO>) {
+    return Addon.query()
+      .patch({ ...body })
+      .findOne({ id, brandId });
   }
 
   async deleteAddon(id: string, brandId: string) {

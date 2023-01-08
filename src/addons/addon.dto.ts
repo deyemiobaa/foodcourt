@@ -44,7 +44,6 @@ export class PatchAddonDTO {
   category?: string;
 }
 
-
 export class AddonCategoryDTO {
   @ApiProperty()
   @IsString()

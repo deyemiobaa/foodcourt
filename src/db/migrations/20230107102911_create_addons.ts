@@ -2,9 +2,9 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
-  
+
   return knex.schema.createTable('addons', (table) => {
-    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('name', 100).notNullable();
     table.integer('price').notNullable();
     table.string('description', 500);

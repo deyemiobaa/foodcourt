@@ -10,7 +10,7 @@ import AddonCategory from 'src/db/models/addon_category';
 
 @Injectable()
 export class BrandsService {
-  constructor(private addonsService: AddonsService) { }
+  constructor(private addonsService: AddonsService) {}
 
   async createAddonForBrand(userId: string, brandId: string, body: AddonDTO) {
     const brand = await Brand.query().findById(brandId);
@@ -55,23 +55,28 @@ export class BrandsService {
     if (!brand) {
       throw new NotFoundException();
     }
-    const addon = await this.addonsService.updateAddon(addonId, userId, brandId, body);
+    const addon = await this.addonsService.updateAddon(
+      addonId,
+      userId,
+      brandId,
+      body,
+    );
     if (!addon) {
       throw new ForbiddenException();
     }
     return `Addon updated successfully`;
   }
 
-  async deleteAddonForBrand(
-    addonId: string,
-    userId: string,
-    brandId: string
-  ) {
+  async deleteAddonForBrand(addonId: string, userId: string, brandId: string) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
       throw new NotFoundException();
     }
-    const addon = await this.addonsService.deleteAddon(addonId, userId, brandId);
+    const addon = await this.addonsService.deleteAddon(
+      addonId,
+      userId,
+      brandId,
+    );
     if (!addon) {
       throw new NotFoundException();
     }

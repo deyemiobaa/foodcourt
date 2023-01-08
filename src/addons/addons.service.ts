@@ -10,22 +10,27 @@ export class AddonsService {
       brandId: brandId,
       userId: userId,
     });
-    return addon
+    return addon;
   }
 
   async getAddons(userId: string, brandId: string) {
     const addons = await Addon.query().where({
       userId,
-      brandId
-    })
-    return addons
+      brandId,
+    });
+    return addons;
   }
 
   async getAddon(id: string, userId: string, brandId: string) {
     return Addon.query().findOne({ id, userId, brandId });
   }
 
-  async updateAddon(id: string, userId: string, brandId: string, body: Partial<PatchAddonDTO>) {
+  async updateAddon(
+    id: string,
+    userId: string,
+    brandId: string,
+    body: Partial<PatchAddonDTO>,
+  ) {
     return Addon.query()
       .patch({ ...body })
       .findOne({ id, userId, brandId });

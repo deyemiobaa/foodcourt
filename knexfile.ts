@@ -40,12 +40,12 @@ const config: { [s: string]: import("knex").Knex.Config; } = {
       max: 10,
     },
     migrations: {
-      directory: path.join(process.cwd(), 'src/db/migrations'),
+      directory: './src/db/migrations',
       extension: 'ts',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: path.join(process.cwd(), 'src/db/seeds'),
+      directory: './src/db/seeds',
     },
     ...knexSnakeCaseMappers(),
   },

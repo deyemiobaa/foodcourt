@@ -13,7 +13,7 @@ const config: { [s: string]: import("knex").Knex.Config; } = {
   development: {
     client: 'postgresql',
     connection: {
-      port: Number(process.env.DB_PORT),
+      port: 5432,
       database: process.env.DB_NAME,
       user: 'postgres',
       password: process.env.DB_PASSWORD,

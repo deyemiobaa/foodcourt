@@ -10,7 +10,7 @@ import AddonCategory from 'src/db/models/addon_category';
 
 @Injectable()
 export class BrandsService {
-  constructor(private addonsService: AddonsService) {}
+  constructor(private addonsService: AddonsService) { }
 
   async createAddonForBrand(userId: string, brandId: string, body: AddonDTO) {
     const brand = await Brand.query().findById(brandId);
@@ -24,12 +24,12 @@ export class BrandsService {
     return `Addon: ${addon.name}, created successfully`;
   }
 
-  async getAddonsForBrand(brandId: string) {
+  async getAddonsForBrand(userId: string, brandId: string) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
       throw new NotFoundException();
     }
-    const addons = await this.addonsService.getAddons(brandId);
+    const addons = await this.addonsService.getAddons(userId, brandId);
     return addons;
   }
 

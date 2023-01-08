@@ -5,15 +5,20 @@ import { AddonDTO, PatchAddonDTO } from './addon.dto';
 @Injectable()
 export class AddonsService {
   async createAddon(userId: string, brandId: string, body: AddonDTO) {
-    return Addon.query().insert({
+    const addon = await Addon.query().insert({
       ...body,
       brandId: brandId,
       userId: userId,
     });
+    return addon
   }
 
-  async getAddons(brandId: string) {
-    return Addon.query().where('brandId', brandId);
+  async getAddons(userId: string, brandId: string) {
+    const addons = await Addon.query().where({
+      userId,
+      brandId
+    })
+    return addons
   }
 
   async getAddon(id: string, brandId: string) {

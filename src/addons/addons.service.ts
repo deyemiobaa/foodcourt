@@ -26,13 +26,12 @@ export class AddonsService {
   }
 
   async updateAddon(id: string, userId: string, brandId: string, body: Partial<PatchAddonDTO>) {
-    const updatedAddon =  Addon.query()
+    return Addon.query()
       .patch({ ...body })
       .findOne({ id, userId, brandId });
-    return updatedAddon
   }
 
-  async deleteAddon(id: string, brandId: string) {
-    return Addon.query().delete().findOne({ id, brandId });
+  async deleteAddon(id: string, userId: string, brandId: string) {
+    return Addon.query().delete().findOne({ id, userId, brandId });
   }
 }

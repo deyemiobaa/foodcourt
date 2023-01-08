@@ -62,16 +62,20 @@ export class BrandsService {
     return `Addon updated successfully`;
   }
 
-  async deleteAddonForBrand(brandId: string, addonId: string) {
+  async deleteAddonForBrand(
+    addonId: string,
+    userId: string,
+    brandId: string
+  ) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
       throw new NotFoundException();
     }
-    const addon = await this.addonsService.deleteAddon(addonId, brandId);
+    const addon = await this.addonsService.deleteAddon(addonId, userId, brandId);
     if (!addon) {
-      throw new ForbiddenException();
+      throw new NotFoundException();
     }
-    return `Addon: ${addon.name}, deleted successfully`;
+    return `Addon deleted successfully`;
   }
 
   async createAddonCategoryForBrand(brandId: string, name: string) {

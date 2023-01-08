@@ -24,65 +24,65 @@ export class BrandsController {
   @UseGuards(JwtAuthGuard)
   @Post(':brandId/addons')
   async createAddon(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Body() body: AddonDTO,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    const newAddon = await this.brandsService.createAddonForBrand(id, brandId, body);
+    const newAddon = await this.brandsService.createAddonForBrand(userId, brandId, body);
     return { message: newAddon };
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':brandId/addons')
   async getAllAddons(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    const data = await this.brandsService.getAddonsForBrand(id, brandId);
+    const data = await this.brandsService.getAddonsForBrand(userId, brandId);
     return data
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/:brandId/addons/:addonId')
   async getAddon(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Param('addonId') addonId: string,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    return this.brandsService.getAddonForBrand(addonId, id, brandId);
+    return this.brandsService.getAddonForBrand(addonId, userId, brandId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('/:brandId/addons/:addonId')
   async updateAddon(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Param('addonId') addonId: string,
     @Body() body: Partial<PatchAddonDTO>,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {
@@ -90,7 +90,7 @@ export class BrandsController {
     }
     const updateAddon = await this.brandsService.updateAddonForBrand(
       addonId,
-      id,
+      userId,
       brandId,
       body,
     );
@@ -100,20 +100,21 @@ export class BrandsController {
   @UseGuards(JwtAuthGuard)
   @Delete(':brandId/addons/:addonId')
   async deleteAddon(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Param('addonId') addonId: string,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    const deleteAddon = this.brandsService.deleteAddonForBrand(
-      brandId,
+    const deleteAddon = await this.brandsService.deleteAddonForBrand(
       addonId,
+      userId,
+      brandId,
     );
     return { message: deleteAddon };
   }
@@ -121,12 +122,12 @@ export class BrandsController {
   @UseGuards(JwtAuthGuard)
   @Post(':brandId/addon-categories')
   async createAddonCategory(
-    @CurrentUser('id') id: string,
+    @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Body('name') name: string,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
-      id,
+      userId,
       brandId,
     );
     if (!isValidRequest) {

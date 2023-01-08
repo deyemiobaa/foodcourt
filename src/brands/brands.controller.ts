@@ -22,7 +22,7 @@ export class BrandsController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post(':brandId/addons:')
+  @Post(':brandId/addons')
   async createAddon(
     @CurrentUser('id') id: string,
     @Param('brandId') brandId: string,
@@ -35,7 +35,7 @@ export class BrandsController {
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    const newAddon = this.brandsService.createAddonForBrand(id, brandId, body);
+    const newAddon = await this.brandsService.createAddonForBrand(id, brandId, body);
     return { message: newAddon };
   }
 
@@ -57,7 +57,7 @@ export class BrandsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:brandId/addons/:addonId:')
+  @Get('/:brandId/addons/:addonId')
   async getAddon(
     @CurrentUser('id') id: string,
     @Param('brandId') brandId: string,
@@ -74,7 +74,7 @@ export class BrandsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('/:brandId/addons/:addonId:')
+  @Patch('/:brandId/addons/:addonId')
   async updateAddon(
     @CurrentUser('id') id: string,
     @Param('brandId') brandId: string,

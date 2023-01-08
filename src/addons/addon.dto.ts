@@ -43,3 +43,11 @@ export class PatchAddonDTO {
   @IsOptional()
   category?: string;
 }
+
+
+export class AddonCategoryDTO {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+}

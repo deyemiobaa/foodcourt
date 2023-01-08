@@ -13,16 +13,30 @@ import {
 import { UsersService } from 'src/users/users.service';
 import { JwtAuthGuard } from 'src/auth/guard/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-import { PatchAddonDTO, AddonDTO } from 'src/addons/addon.dto';
+import { PatchAddonDTO, AddonDTO, AddonCategoryDTO } from 'src/addons/addon.dto';
+import { ApiOperation, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
+
+
+@ApiSecurity('bearer')
 @Controller('brands')
+@ApiTags('Brand operations')
+@UseGuards(JwtAuthGuard)
 export class BrandsController {
   constructor(
     private readonly brandsService: BrandsService,
     private readonly usersService: UsersService,
-  ) {}
+  ) { }
 
-  @UseGuards(JwtAuthGuard)
   @Post(':brandId/addons')
+  @ApiOperation({
+    summary: 'End point to create an addon for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to perform the operation on',
+    required: true,
+    type: String
+  })
   async createAddon(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
@@ -39,8 +53,17 @@ export class BrandsController {
     return { message: newAddon };
   }
 
-  @UseGuards(JwtAuthGuard)
+
   @Get(':brandId/addons')
+  @ApiOperation({
+    summary: 'End point to get all addons for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to perform the operation on',
+    required: true,
+    type: String
+  })
   async getAllAddons(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
@@ -56,8 +79,23 @@ export class BrandsController {
     return data
   }
 
-  @UseGuards(JwtAuthGuard)
+
   @Get('/:brandId/addons/:addonId')
+  @ApiOperation({
+    summary: 'End point to get an addon for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to perform the operation on',
+    required: true,
+    type: String
+  })
+  @ApiParam({
+    name: 'addonId',
+    description: 'Id of the addon you want to get',
+    required: true,
+    type: String
+  })
   async getAddon(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
@@ -73,13 +111,27 @@ export class BrandsController {
     return this.brandsService.getAddonForBrand(addonId, userId, brandId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch('/:brandId/addons/:addonId')
+  @ApiOperation({
+    summary: 'End point to update properties of an addon for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to perform the operation on',
+    required: true,
+    type: String
+  })
+  @ApiParam({
+    name: 'addonId',
+    description: 'Id of the addon you want to update',
+    required: true,
+    type: String
+  })
   async updateAddon(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
     @Param('addonId') addonId: string,
-    @Body() body: Partial<PatchAddonDTO>,
+    @Body() body: PatchAddonDTO,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
       userId,
@@ -97,8 +149,22 @@ export class BrandsController {
     return { message: updateAddon };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete(':brandId/addons/:addonId')
+  @ApiOperation({
+    summary: 'End point to delete an addon for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to perform the operation on',
+    required: true,
+    type: String
+  })
+  @ApiParam({
+    name: 'addonId',
+    description: 'Id of the addon you want to delete',
+    required: true,
+    type: String
+  })
   async deleteAddon(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
@@ -119,12 +185,20 @@ export class BrandsController {
     return { message: deleteAddon };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post(':brandId/addon-categories')
+  @ApiOperation({
+    summary: 'End point to create an addon-category for a brand',
+  })
+  @ApiParam({
+    name: 'brandId',
+    description: 'Id of the brand you want to create a category for',
+    required: true,
+    type: String
+  })
   async createAddonCategory(
     @CurrentUser('id') userId: string,
     @Param('brandId') brandId: string,
-    @Body('name') name: string,
+    @Body() body: AddonCategoryDTO,
   ) {
     const isValidRequest = await this.usersService.checkUserAndBrand(
       userId,
@@ -133,7 +207,8 @@ export class BrandsController {
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    
+
+    const { name } = body;
     const newAddonCategory = await this.brandsService.createAddonCategoryForBrand(
       brandId,
       name,

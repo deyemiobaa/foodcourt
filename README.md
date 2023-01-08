@@ -50,6 +50,9 @@ Head on to `http://localhost:3000/api` to view the API documentation.
 In `src/db/seeds/demo.ts` you can find the seed data for the database. Running the seed command will create a user and brand for you to use for testing. 
 
 Use the credentials to test the endpoints.
+- Once you login with the admin credentials, an access token is generated.
+  - To test in places places Postman. pass `Bearer <access_token>` to the Authorization header
+  - To test in the live swagger doc. pass only the <access_token> without any prefix to the authorize modal. (Click Authorize on the top right page to show modal)
 
 
 ## Improvements

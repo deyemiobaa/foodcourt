@@ -46,19 +46,20 @@ export class BrandsService {
   }
 
   async updateAddonForBrand(
-    brandId: string,
     addonId: string,
+    userId: string,
+    brandId: string,
     body: PatchAddonDTO,
   ) {
     const brand = await Brand.query().findById(brandId);
     if (!brand) {
       throw new NotFoundException();
     }
-    const addon = await this.addonsService.updateAddon(addonId, brandId, body);
+    const addon = await this.addonsService.updateAddon(addonId, userId, brandId, body);
     if (!addon) {
       throw new ForbiddenException();
     }
-    return `Addon: ${addon.name}, updated successfully`;
+    return `Addon updated successfully`;
   }
 
   async deleteAddonForBrand(brandId: string, addonId: string) {

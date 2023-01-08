@@ -88,9 +88,10 @@ export class BrandsController {
     if (!isValidRequest) {
       throw new ForbiddenException();
     }
-    const updateAddon = this.brandsService.updateAddonForBrand(
-      brandId,
+    const updateAddon = await this.brandsService.updateAddonForBrand(
       addonId,
+      id,
+      brandId,
       body,
     );
     return { message: updateAddon };

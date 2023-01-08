@@ -6,7 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import knexConfig from '../knexfile';
 
-const knex = Knex(knexConfig.development);
+const env = process.env.NODE_ENV || 'development';
+const knex = Knex(knexConfig[env]);
 Model.knex(knex);
 
 async function bootstrap() {
